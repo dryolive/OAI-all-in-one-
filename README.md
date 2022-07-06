@@ -38,3 +38,9 @@ $ mysql -u root -p
  exit
  sudo mysql_secure_installation #回归之前暂停的第二步
  ```
+### HSS安装部署
+初始化 HSS: 'sudo oai-cn.hss-init'
+找到 configuration 文件: 'sudo oai-cn.hss-conf-get'，屏幕会输出该文件所在的路径
+修改 hss.conf 文件，修改登录mysql的用户名（root）和密码（之前自己设置的密码），并修改OPERATOR_key = "11111111111111111111111111111111";并且该文件内会有hss_fd.conf的路径
+修改 hss_fd.conf, 检查 Identity 来匹配 <hostname>.openair4G.eur ，在命令行查看'/etc/hosts'文件，可以看到hss和mme有相应的identity。
+ 
