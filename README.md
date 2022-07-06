@@ -50,6 +50,19 @@ $ mysql -u root -p
 ### MME安装部署
 1. 初始化 MME: `sudo oai-cn.mme-init`
 2. 找到 configuration 文件: `sudo oai-cn.mme-conf-get`
-3. 在 mme.conf: 需要检查一些参数，但是现在版本应该默认就是对的不需要修改，在该文件中找到mme_fd.conf的路径
+3. 在 mme.conf:  修改并记录GUMMEI_LIST和TAI_LIST的前两个参数保持一致（两个连起来即PLMN），此外还需要检查NETWORK_INTERFACES: MME_IPV4_ADDRESS_FOR_S1_MME to 127.0.1.10/24、MME_IPV4_ADDRESS_FOR_S11_MME to 127.0.11.1/8、S-GW: SGW_IPV4_ADDRESS_FOR_S11 to 127.0.11.2/8，但是现在版本应该默认就是对的不需要修改，在该文件中找到mme_fd.conf的路径
 4. 在 mme_fd.conf: 检查identity 和 connect peer的hostname，但默认也是对的
 5. 启动MME：`sudo oai-cn.mme`
+6. 最后一行为Peer <hostname>.openair4G.eur is now connected即成功（保持HSS后台运行）
+ 
+### SPGW安装部署
+1. 初始化 SPGW: `sudo oai-cn.spgw-init`
+2. 在 spgw.conf文件中，修改以下参数
+ ```bash
+SGW_IPV4_ADDRESS_FOR_S11 to 127.0.11.2/8
+SGW_IPV4_ADDRESS_FOR_S1U_S12_S4_UP to 127.0.1.10/24
+PGW_INTERFACE_NAME_FOR_SGI: the interface to the Internet
+DEFAULT_DNS_IPV4_ADDRESS: your DNS
+ ```
+3. 启动 SPGW: `sudo oai-cn.spgw`
+4. 最后一行为 Initializing SPGW-APP task interface: DONE 即成功
