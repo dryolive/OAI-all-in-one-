@@ -15,13 +15,26 @@ sudo modprobe gtp
 dmesg | tail # You should see something that says about GTP kernel module
 ```
 为了让OAI支持接入更多的UE，可能会需要修改CPU相关功能来压榨PC的性能，具体涉及到 在 BIOS 中移除电源管理功能（P-states, C-states）、在 BIOS 中关闭超线程（hyper-threading）、禁用 Intel CPU 的 P-state 驱动（Intel CPU 专用的频率调节器驱动）、将 intel_powerclamp（Intel 电源管理驱动程序）加入启动黑名单、关闭 CPU 睿频，这里暂不使用，需要的话查看https://www.cnblogs.com/jmilkfan-fanguiju/p/12789792.html
-##OAI核心网部署
+## OAI核心网部署
 来源：https://gitlab.eurecom.fr/mosaic5g/mosaic5g/-/wikis/tutorials/oai-cn
+```
+# Install OAI-CN as a snap:
+sudo snap install oai-cn --channel=edge --devmode
+
+# Check the installation:
+sudo oai-cn.help 
+```
 核心网需要MySQL注册UE列表，所以先安装mysql：
-###mysql安装
+### mysql安装
 ```
 $ sudo apt install mysql-server mysql-client
-$ sudo mysql_secure_installation # after new installation #root用户先暂停
+$ sudo mysql_secure_installation # after new installation #root用户先暂停这一步
 $ mysql -u root -p
 ```
-注：在第二步中如果是作为root用户
+注：在第二步中如果是作为root用户,则需要提前设置密码，步骤如下：
+ ```
+ sudo mysql  #进入mysql命令行
+ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password by 'mynewpassword';  #mynewpassword改为自己的密码
+ exit
+ sudo mysql_secure_installation #回归之前暂停的第二步
+ ```
